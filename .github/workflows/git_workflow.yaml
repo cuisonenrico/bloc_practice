@@ -1,0 +1,99 @@
+name: Workflows
+
+on:
+  push:
+    branches:
+      - feature/*  # Runs when a branch prefixed with "feature/" is pushed
+
+jobs:
+  createPullRequest:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    name: Auto PR
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures full commit history
+
+      - name: Check if PR Already Exists
+        id: check_pr
+        run: |
+          PR_EXISTS=$(gh pr list --head "${{ github.ref_name }}" --json number --jq '. | length')
+          if [[ "$PR_EXISTS" -gt 0 ]]; then
+            echo "PR already exists. Skipping PR creation."
+            echo "SKIP_PR=true" >> $GITHUB_ENV
+          else
+            echo "No existing PR found. Proceeding to create a PR."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get Commit Message
+        if: env.SKIP_PR != 'true'  # Only run if no PR exists
+        id: commit_msg
+        run: |
+          echo "TITLE=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
+          echo "BODY=$(git log -1 --pretty=%b)" >> $GITHUB_ENV
+
+      - name: Authenticate with GitHub CLI
+        if: env.SKIP_PR != 'true'  # Only run if no PR exists
+        run: gh auth status
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+      - name: Create Pull Request
+        if: env.SKIP_PR != 'true'  # Only run if no PR exists
+        run: |
+          gh pr create \
+            --base main \
+            --head ${{ github.ref_name }} \
+            --title "${{ env.TITLE }}" \
+            --body "${{ env.BODY }}" \
+            --label "automated pull request" \
+        #            --reviewer "your-github-username" \
+        #            --assignee "your-github-username"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  lintCheck:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    name: Lint Check
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get FVM Config
+        id: fvm_config
+        uses: zoexx/github-action-json-file-properties@release
+        with:
+          file_path: ".fvm/fvm_config.json"
+
+      - name: Install flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm_config.outputs.flutterSdkVersion }}
+          channel: stable
+          cache: true
+          architecture: x64
+
+
+      - name: Install packages and analyze
+        run: |
+          flutter pub get
+          flutter packages pub run build_runner build --delete-conflicting-outputs --verbose
+          flutter analyze > flutter_analyze_report.txt
+
+      - name: Comment PR
+        if: ${{ failure() }} || ${{ success() }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: "lints"
+          hide_and_recreate: true
+          hide_classify: "OUTDATED"
+          path: flutter_analyze_report.txt
+

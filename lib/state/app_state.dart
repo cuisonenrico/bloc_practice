@@ -1,4 +1,5 @@
 import 'package:async_redux/async_redux.dart';
+import 'package:bloc_practice/utilities/enums/error_enums.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'app_state.freezed.dart';
@@ -10,6 +11,7 @@ class AppState with _$AppState {
     // Counter
     @Default(0) int counter,
     @Default('None') String text,
+    @Default(ErrorCodes.STAND_BY) ErrorCodes errorCode,
     // Wait
     @Default(Wait.empty) @JsonKey(name: 'wait', includeFromJson: false) Wait wait,
   }) = _AppState;
