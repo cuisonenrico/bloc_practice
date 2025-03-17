@@ -9,6 +9,7 @@ class AppState with _$AppState {
   factory AppState({
     // Counter
     @Default(0) int counter,
+    @Default('None') String text,
     // Wait
     @Default(Wait.empty) @JsonKey(name: 'wait', includeFromJson: false) Wait wait,
   }) = _AppState;

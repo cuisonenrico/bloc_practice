@@ -1,3 +1,3 @@
-import 'package:setup/utilities/app_starter.dart';
+import 'package:bloc_practice/utilities/app_starter.dart';
 
 void main() => startApp();

@@ -1,13 +1,13 @@
+import 'package:bloc_practice/utilities/app_router.dart';
 import 'package:flutter/material.dart';
-import 'package:setup/utilities/app_router.dart';
 
-class SetupApp extends StatelessWidget {
-  const SetupApp({super.key});
+class BlocPractice extends StatelessWidget {
+  const BlocPractice({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Setup App',
+      title: 'Bloc Practice App',
       routeInformationProvider: router.routeInformationProvider,
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,

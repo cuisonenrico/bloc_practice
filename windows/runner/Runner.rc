@@ -94,8 +94,8 @@ BEGIN
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "setup" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "setup.exe" "\0"
-            VALUE "ProductName", "setup" "\0"
+            VALUE "OriginalFilename", "bloc_practice.exe" "\0"
+            VALUE "ProductName", "bloc_practice" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

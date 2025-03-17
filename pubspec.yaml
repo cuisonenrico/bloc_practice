@@ -1,4 +1,4 @@
-name: setup
+name: bloc_practice
 description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -22,6 +22,7 @@ dependencies:
   freezed_annotation: ^2.1.0
 
   go_router: ^14.7.1
+  flutter_bloc: ^9.1.0
 
 
 dev_dependencies:
