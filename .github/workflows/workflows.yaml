@@ -1,3 +1,5 @@
+name: Workflows
+
 on:
   push:
     branches:
@@ -41,6 +43,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+
+
       - name: Create Pull Request
         if: env.SKIP_PR != 'true'  # Only run if no PR exists
         run: |
@@ -50,8 +54,8 @@ jobs:
             --title "${{ env.TITLE }}" \
             --body "${{ env.BODY }}" \
             --label "automated pull request" \
-#            --reviewer "your-github-username" \
-#            --assignee "your-github-username"
+        #            --reviewer "your-github-username" \
+        #            --assignee "your-github-username"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -76,6 +80,18 @@ jobs:
           channel: stable
           cache: true
           architecture: x64
+
+      - name: Inject Dummy Environment File
+        uses: "DamianReeves/write-file-action@master"
+        with:
+          path: lib/environment.dart
+          write-mode: overwrite
+          contents: |
+            // ignore_for_file: constant_identifier_names
+            // ignore_for_file: non_constant_identifier_names
+            class Environment {
+              
+            }
 
       - name: Install packages and analyze
         run: |
