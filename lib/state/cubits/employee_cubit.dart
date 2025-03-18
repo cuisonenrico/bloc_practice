@@ -61,6 +61,21 @@ class EmployeeCubit extends Cubit<EmployeeState> implements IEmployeeRepository 
     }
   }
 
+  void setNameQuery(String nameQuery) {
+    emit(state.copyWith(nameQuery: nameQuery));
+
+    final query = state.nameQuery;
+    if (query.isEmpty) emit(state.copyWith(queriedEmployeeList: []));
+
+    final employeeList = state.employeeList;
+    final queriedList = employeeList
+        .where((employee) =>
+            employee.firstName?.toLowerCase().contains(query) == true ||
+            employee.lastName?.toLowerCase().contains(query) == true)
+        .toList();
+    emit(state.copyWith(queriedEmployeeList: queriedList));
+  }
+
   void setFirstName(String firstName) =>
       emit(state.copyWith(selectedEmployee: state.selectedEmployee?.copyWith(firstName: firstName)));
 

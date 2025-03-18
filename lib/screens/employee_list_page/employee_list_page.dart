@@ -16,6 +16,9 @@ class EmployeeListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final stateBloc = context.watch<EmployeeCubit>();
 
+    final employeeList = stateBloc.state.queriedEmployeeList.isEmpty
+        ? stateBloc.state.employeeList
+        : stateBloc.state.queriedEmployeeList;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -30,7 +33,7 @@ class EmployeeListPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: DebouncingInputField(
-                        onChangeText: (query) {},
+                        onChangeText: (query) => stateBloc.setNameQuery(query),
                         hintText: 'Search Here',
                       ),
                     ),
@@ -50,7 +53,7 @@ class EmployeeListPage extends StatelessWidget {
             ),
 
             /// LIST
-            ...stateBloc.state.employeeList.map(
+            ...employeeList.map(
               (employee) => EmployeeTile(
                 employee,
                 onDelete: () {

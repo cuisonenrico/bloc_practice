@@ -7,7 +7,9 @@ part 'employee_state.g.dart';
 @freezed
 class EmployeeState with _$EmployeeState {
   factory EmployeeState({
+    @Default('') String nameQuery,
     @Default([]) List<Employee> employeeList,
+    @Default([]) List<Employee> queriedEmployeeList,
     @Default(null) Employee? selectedEmployee,
   }) = _EmployeeState;
 
