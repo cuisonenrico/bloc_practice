@@ -1,4 +1,3 @@
-import 'package:bloc_practice/state/models/employee_model/employee.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

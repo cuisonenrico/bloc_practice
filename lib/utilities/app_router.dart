@@ -4,6 +4,7 @@ import 'package:bloc_practice/screens/login_page/login_page.dart';
 import 'package:bloc_practice/screens/time_log_page/emloyee_time_log.dart';
 import 'package:bloc_practice/screens/time_log_page/time_log_page.dart';
 import 'package:bloc_practice/state/cubits/employee_cubit.dart';
+import 'package:bloc_practice/state/cubits/time_log_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -42,7 +43,12 @@ final router = GoRouter(
                 GoRoute(
                   path: EmployeeTimeLogs.route,
                   name: EmployeeTimeLogs.routeName,
-                  builder: (_, __) => EmployeeTimeLogs(),
+                  builder: (context, __) {
+                    final employeeId = context.read<EmployeeCubit>().state.selectedEmployee?.id;
+                    if (employeeId == null) return EmployeeTimeLogs();
+                    context.read<TimeLogCubit>().getTimeLogs(employeeId);
+                    return EmployeeTimeLogs();
+                  },
                   routes: const [],
                 ),
               ],
