@@ -7,17 +7,16 @@ import 'package:http/http.dart' as http;
 class StateCubit extends Cubit<AppState> {
   StateCubit() : super(AppState.init());
 
-  void increment() => emit(state.copyWith(counter: state.counter + 1));
-  void decrement() => emit(state.copyWith(counter: state.counter - 1));
-  void setText(String text) => emit(state.copyWith(text: text));
   // Fetch data from API
+  // TODO(cuisonenrico): improve this by moving the API call to another file to better layer the structure
   Future<void> fetch() async {
     try {
-      final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
+      final response = await http.get(Uri.parse(''));
 
       if (response.statusCode == 200) {
+        /// Parse object here (create a model and parse from json)
         // final data = json.decode(response.body);
-        emit(state.copyWith(text: 'data'));
+        // emit(state.copyWith(text: 'data'));
       } else {
         emit(state.copyWith(errorCode: ErrorCodes.API_ERROR));
       }
