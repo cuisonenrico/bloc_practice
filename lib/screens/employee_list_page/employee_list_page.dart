@@ -1,7 +1,9 @@
 import 'package:bloc_practice/screens/employee_list_page/add_new_employee_page.dart';
 import 'package:bloc_practice/screens/employee_list_page/widgets/employee_tile.dart';
+import 'package:bloc_practice/screens/time_log_page/time_log_page.dart';
 import 'package:bloc_practice/screens/widgets/debouncing_input_field.dart';
 import 'package:bloc_practice/state/cubits/employee_cubit.dart';
+import 'package:bloc_practice/state/cubits/time_log_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +21,7 @@ class EmployeeListPage extends StatelessWidget {
     final employeeList = stateBloc.state.queriedEmployeeList.isEmpty
         ? stateBloc.state.employeeList
         : stateBloc.state.queriedEmployeeList;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -54,13 +57,22 @@ class EmployeeListPage extends StatelessWidget {
 
             /// LIST
             ...employeeList.map(
-              (employee) => EmployeeTile(
-                employee,
-                onDelete: () {
+              (employee) => InkWell(
+                onTap: () {
+                  stateBloc.setSelectedEmployee(employee);
                   final id = employee.id;
                   if (id == null) return;
-                  stateBloc.deleteEmployee(id);
+                  context.read<TimeLogCubit>().onSetEmployeeId(id);
+                  context.goNamed(TimeLogPage.routeName);
                 },
+                child: EmployeeTile(
+                  employee,
+                  onDelete: () {
+                    final id = employee.id;
+                    if (id == null) return;
+                    stateBloc.deleteEmployee(id);
+                  },
+                ),
               ),
             ),
           ],
