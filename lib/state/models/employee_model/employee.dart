@@ -21,7 +21,7 @@ class Employee with _$Employee {
   factory Employee.init() => Employee(
         firstName: '',
         lastName: '',
-        birthDate: DateTime.now(),
-        hourlyRate: 0,
+        birthDate: null,
+        hourlyRate: null,
       );
 }
