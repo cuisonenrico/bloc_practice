@@ -15,9 +15,7 @@ class EmployeeCubit extends Cubit<EmployeeState> implements IEmployeeRepository 
 
     // Loads all employees saved in DB
     final employees = await EmployeeRepository(box).getEmployees();
-    if (kDebugMode) {
-      print(employees);
-    }
+
     if (employees == null) return null;
 
     // Store all employees in [DB] in [state]

@@ -1,6 +1,8 @@
 import 'package:bloc_practice/screens/employee_list_page/add_new_employee_page.dart';
 import 'package:bloc_practice/screens/employee_list_page/employee_list_page.dart';
 import 'package:bloc_practice/screens/login_page/login_page.dart';
+import 'package:bloc_practice/screens/time_log_page/emloyee_time_log.dart';
+import 'package:bloc_practice/screens/time_log_page/time_log_page.dart';
 import 'package:bloc_practice/state/cubits/employee_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,24 +34,33 @@ final router = GoRouter(
               builder: (_, __) => AddNewEmployeePage(),
               routes: const [],
             ),
+            GoRoute(
+              path: TimeLogPage.route,
+              name: TimeLogPage.routeName,
+              builder: (_, __) => TimeLogPage(),
+              routes: [
+                GoRoute(
+                  path: EmployeeTimeLogs.route,
+                  name: EmployeeTimeLogs.routeName,
+                  builder: (_, __) => EmployeeTimeLogs(),
+                  routes: const [],
+                ),
+              ],
+            ),
           ],
         ),
+
+        // ShellRoute(
+        //   builder: (context, state, child) {
+        //     context.read<EmployeeCubit>().getEmployees();
+        //     return MainPage(child: child);
+        //   },
+        //   routes: [
+        //
+        //   ],
+        // ),
       ],
     ),
-    // GoRoute(
-    //   path: MainPage.route,
-    //   name: MainPage.routeName,
-    //   builder: (_, __) => MainPage(),
-    //   redirect: (context, routerState) {
-    //     final state = context.read<StateCubit>().state;
-    //     final isLoggedIn = state.isLoggedIn;
-    //
-    //     return isLoggedIn ? MainPage.routeName : LoginPage.route;
-    //   },
-    //   routes: [
-    //
-    //   ],
-    // ),
   ],
 );
 
