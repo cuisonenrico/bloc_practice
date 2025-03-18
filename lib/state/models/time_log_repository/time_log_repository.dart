@@ -23,7 +23,7 @@ class TimeLogRepository extends ITimeLogRepository {
   }
 
   @override
-  Future<void> saveTimeLog(TimeLog timeLog) async {
+  Future<void> saveTimeLog(TimeLog timeLog, int employeeId) async {
     try {
       await _timeLogBox.put(timeLog.id, timeLog);
     } catch (e) {

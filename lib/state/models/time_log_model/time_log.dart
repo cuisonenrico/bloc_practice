@@ -13,7 +13,7 @@ class TimeLog with _$TimeLog {
     @HiveField(1) int? employeeId,
     @HiveField(2) DateTime? timeIn,
     @HiveField(3) DateTime? timeOut,
-    @HiveField(4) Employee? employee,
+    @HiveField(4) DateTime? date,
   }) = _TimeLog;
 
   factory TimeLog.fromJson(Map<String, dynamic> json) => _$TimeLogFromJson(json);
