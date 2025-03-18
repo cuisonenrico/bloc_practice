@@ -3,3 +3,5 @@ This is a repository where I utilize BLoC in Flutter for state management. Utili
 
 <img src='https://github.com/user-attachments/assets/06154b11-ba9b-48e4-9444-c623b64b44c6' height=700 width=300>
 <img src='https://github.com/user-attachments/assets/c9924e34-98d0-44cb-92c7-1164d6fe53c4' height=700 width=300>
+<img src='https://github.com/user-attachments/assets/68d23562-bb17-44cb-9c2c-e1d96b09d3f5' height=700 width=300>
+<img src='https://github.com/user-attachments/assets/21773b01-414b-47dc-9996-d8ce01bca028' height=700 width=300>
