@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DebouncingInputField extends StatefulWidget {
   const DebouncingInputField({
@@ -87,6 +88,10 @@ class _DebouncingInputFieldState extends State<DebouncingInputField> {
         maxLines: widget.maxLines,
         obscureText: widget.obscureText,
         initialValue: widget.initialValue,
+        inputFormatters: <TextInputFormatter>[
+          if (widget.keyboardInput == TextInputType.number)
+            FilteringTextInputFormatter.digitsOnly, // Only allows numbers
+        ],
         decoration: widget.inputDecoration ??
             InputDecoration(
               labelText: widget.labelText,

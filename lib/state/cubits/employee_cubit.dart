@@ -30,7 +30,7 @@ class EmployeeCubit extends Cubit<EmployeeState> implements IEmployeeRepository 
     try {
       final box = await Hive.openBox<Employee>('Employees');
 
-      final id = box.length + 1;
+      final id = employee.id ?? box.length + 1;
       // Save employee in [DB]
       EmployeeRepository(box).saveEmployee(employee.copyWith(id: id));
       final employees = state.employeeList;
@@ -74,25 +74,7 @@ class EmployeeCubit extends Cubit<EmployeeState> implements IEmployeeRepository 
     emit(state.copyWith(selectedEmployee: state.selectedEmployee?.copyWith(birthDate: birthDate)));
   }
 
-  Future<void> deleteEmployeeFromList(Employee employee) async {
-    /// This should refer to a unique key to be able to delete just one entry in the list.
-    try {
-      final box = await Hive.openBox<Employee>('Employees');
+  void setSelectedEmployee(Employee employee) => emit(state.copyWith(selectedEmployee: employee));
 
-      final id = box.length + 1;
-      // Save employee in [DB]
-      EmployeeRepository(box).saveEmployee(employee.copyWith(id: id));
-      final employees = state.employeeList;
-
-      // Store the employee in [state]
-      emit(state.copyWith(employeeList: [...employees, employee]));
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-    final employeeList = state.employeeList.where((e) => e != employee).toList();
-
-    emit(state.copyWith(employeeList: employeeList));
-  }
+  void disposeSelectedEmployee() => emit(state.copyWith(selectedEmployee: Employee.init()));
 }
