@@ -35,7 +35,11 @@ jobs:
         id: commit_msg
         run: |
           echo "TITLE=$(git log -1 --pretty=%s)" >> $GITHUB_ENV
-          echo "BODY=$(git log -1 --pretty=%b)" >> $GITHUB_ENV
+          {
+            echo 'BODY<<EOF'
+            git log -1 --pretty=%b
+            echo 'EOF'
+          } >> $GITHUB_ENV
 
       - name: Authenticate with GitHub CLI
         if: env.SKIP_PR != 'true'  # Only run if no PR exists
